@@ -1,5 +1,6 @@
 /bootstrap/compiled.php
 /vendor
+/public/bower_resources
 composer.phar
 composer.lock
 .idea

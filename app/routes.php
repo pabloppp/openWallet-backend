@@ -17,10 +17,12 @@ Route::get('/', function()
 });
 
 Route::get('hello',
-'HomeController@sayHello'
+    'HomeController@sayHello'
 );
 
-Route::controller('api', 'ApiController');
+Route::controller('api',
+    'ApiController'
+);
 
 /*
  * EXAMPLE OF FILTERED ROUTE

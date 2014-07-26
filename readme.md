@@ -1,6 +1,8 @@
 ## OpenWallet - An OpenBadges solution!
 
-Necesita :  [composer](https://getcomposer.org/)
+Necesita :
+[composer](https://getcomposer.org/)
+[bower](http://bower.io/)
 
 
 ## Instalacion
@@ -9,7 +11,19 @@ Clona o 'forkea' este repo y ejecuta en tu terminal:
 
 ```
 
-composer install
+composer update
+bower update
+
+```
+
+Copia el archivo `.env.local.php.sample` y renombralo a `.env.local.php`
+
+Crea la base de datos y edita el archivo para que coincida con tu configuración y ejecuta:
+
+```
+
+php artisan migrate:refresh
+php artisan db:seed
 
 ```
 

@@ -21,7 +21,23 @@ class HomeController extends BaseController {
 	}
 
     public function sayHello(){
-        return "HELLO!";
+        $username = "pablo";
+        $password = "aaa";
+
+        $credentials = array(
+            'username' => $username,
+            'password' => $password,
+        );
+        if (Auth::check())
+        {
+            return "HELLO OAUTH REMEMBERED!<br>
+                    you are ".Auth::user()->username;
+        }
+        if (Auth::attempt($credentials, true))
+        {
+            return "HELLO OAUTH!";
+        }
+        else return "HELLO FOREIGNER!";
     }
 
 }
