@@ -7,6 +7,14 @@ use Illuminate\Auth\Reminders\RemindableInterface;
 
 class User extends Eloquent implements UserInterface, RemindableInterface {
 
+    /**
+     * id - AI
+     * username [string(255)]
+     * password [string(255)]
+     * remember_token [string(100)] NULLABLE
+     * timestamps
+     */
+
 	use UserTrait, RemindableTrait;
 
 	/**
@@ -21,7 +29,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 *
 	 * @var array
 	 */
-	protected $hidden = array('password', 'remember_token');
+	protected $hidden = array('password', 'remember_token', 'pivot');
 
 
     public function getAuthPassword()
@@ -33,5 +41,36 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     {
         return $this->getKey();
     }
+
+    public function accounts()
+    {
+        return $this->hasMany('Account');
+    }
+
+    public function badges()
+    {
+        return $this->belongsToMany('Badge', 'user_badge');
+    }
+
+    public function tags(){
+        return $this->hasMany('Tag');
+    }
+
+
+
+    public function taggedBadges()
+    {
+        $badges = array();
+        foreach ($this->tags as $tag){
+            foreach ($tag->badges as $badge){
+                $badges[] = $badge;
+            }
+        }
+        sort($badges);
+        return json_encode($badges);
+
+    }
+
+
 
 }
