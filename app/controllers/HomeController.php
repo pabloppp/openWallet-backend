@@ -30,8 +30,10 @@ class HomeController extends BaseController {
         );
         if (Auth::check())
         {
+            $name = Auth::user()->username;
+            Auth::logout();
             return "HELLO OAUTH REMEMBERED!<br>
-                    you are ".Auth::user()->username;
+                    you are ".$name;
         }
         if (Auth::attempt($credentials, true))
         {

@@ -20,9 +20,28 @@ Route::get('hello',
     'HomeController@sayHello'
 );
 
-Route::controller('api',
-    'ApiController'
-);
+//protected group
+Route::group(array('before' => 'auth.basic.once'), function() {
+    Route::controller('api',
+        'ApiController'
+    );
+});
+
+Route::get('/oauth/login', function()
+{
+    return View::make('simplelogin');
+});
+
+Route::get('/oauth/logged', array('before' => 'oauth|oauth-owner:client', function(){
+    return "oauth secured route for clients only id: ".ResourceServer::getOwnerId();
+}));
+
+//ROUTE FOR GETTING THE ACCESS TOKEN
+
+Route::post('oauth/access_token', function()
+{
+    return AuthorizationServer::performAccessTokenFlow();
+});
 
 /*
  * EXAMPLE OF FILTERED ROUTE
