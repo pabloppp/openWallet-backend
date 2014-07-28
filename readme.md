@@ -22,8 +22,8 @@ Crea la base de datos y edita el archivo para que coincida con tu configuración
 
 ```
 
-php artisan migrate:refresh
-php artisan db:seed
+php artisan db:fireup
+
 
 ```
 

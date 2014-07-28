@@ -16,7 +16,14 @@ return array(
 	'debug' => true,
 
     'providers' => append_config(array(
-        'Barryvdh\Debugbar\ServiceProvider'
+        'Barryvdh\Debugbar\ServiceProvider',
+        'Rtablada\PackageInstaller\PackageInstallerServiceProvider',
+        'LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider'
+    )),
+
+    'aliases' => append_config(array(
+        'AuthorizationServer' => 'LucaDegasperi\OAuth2Server\Facades\AuthorizationServerFacade',
+        'ResourceServer' => 'LucaDegasperi\OAuth2Server\Facades\ResourceServerFacade'
     ))
 
 );
