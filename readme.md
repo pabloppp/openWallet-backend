@@ -20,6 +20,12 @@ Copia el archivo `.env.local.php.sample` y renombralo a `.env.local.php`
 
 Crea la base de datos y edita el archivo para que coincida con tu configuración y ejecuta:
 
+Copia el archivo `bootstrap/environment.php.sample` y renombralo a `environment.php`
+
+Edita el archivo cambiando `local` por el nombre del entorno que estes usando.
+
+
+
 ```
 
 php artisan db:fireup

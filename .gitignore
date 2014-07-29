@@ -1,8 +1,9 @@
 /bootstrap/compiled.php
+/bootstrap/environment.php
 /vendor
 /public/bower_resources
 composer.phar
-composer.lock
+#composer.lock
 .idea
 .env.*.php
 .env.php
