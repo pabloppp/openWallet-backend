@@ -34,8 +34,8 @@ class UserTableSeeder extends Seeder {
 
         $pass = Hash::make('aaa');
 
-        $newUser = User::create(array('username' => 'pablo', 'password' => $pass));
-        $newUser2 = User::create(array('username' => 'roxanne', 'password' => $pass));
+        $newUser = User::create(array('username' => 'pablo', 'password' => $pass, 'email' => "pablo@pernias.com"));
+        $newUser2 = User::create(array('username' => 'roxanne', 'password' => $pass, 'email' => "roxannelopez6@hormail.com"));
 
         $mozillaAccount = AccountType::create(array('id' => 'mozilla', 'name' => 'Mozilla OpenBadges'));
         $addedAccount = new Account(array('name'=>'aaa','secret'=>'ccc'));
@@ -46,8 +46,7 @@ class UserTableSeeder extends Seeder {
             'name' =>'OpenWallet Noob',
             'description' =>'You just registered! Yay! Thanks...',
             'criteria' =>'http://openwallet.io/show/badge/',
-            'image_url' =>'http://sm.ingenieriamultimedia.org/lib/exe/fetch.php?cache=&media=criteria:novato.png',
-            'image' => '000'
+            'image_remote' =>'http://sm.ingenieriamultimedia.org/lib/exe/fetch.php?cache=&media=criteria:novato.png'
         ));
 
         $WalletIssuer = Issuer::create(array(
@@ -120,6 +119,12 @@ class OAuth_ClientTableSeeder extends Seeder {
             'description' => 'Basic Scope'
         ));
 
+        $appScope = OAuthScope::create(array(
+            'scope' => 'app',
+            'name'  => 'appScope',
+            'description' => 'Scope for the OpenWallet App'
+        ));
+
 
         $firstClient = OAuthClient::create(array(
             'id' => str_random(40),
@@ -127,8 +132,17 @@ class OAuth_ClientTableSeeder extends Seeder {
             'name' => "mainClient"
         ));
 
+        $secondClient = OAuthClient::create(array(
+            'id' => str_random(40),
+            'secret' => str_random(40),
+            'name' => "appClient"
+        ));
+
         $firstClient->grants()->attach($thirdGrant);
         $firstClient->scopes()->attach($basicScope);
+
+        $secondClient->grants()->attach($secondGrant);
+        $secondClient->scopes()->attach($appScope);
 
 
 

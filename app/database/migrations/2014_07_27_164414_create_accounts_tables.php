@@ -24,13 +24,17 @@ class CreateAccountsTables extends Migration {
         {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('name', 255);
             $table->string('secret', 255);
-            $table->string('recipient', 255)->nullable();
             $table->string('account_type', 100);
-            $table->foreign('account_type')->references('id')->on('account_types');
+            $table->foreign('account_type')->references('id')->on('account_types')->onDelete('cascade');
+            $table->boolean('active')->default(false);
             $table->timestamps();
+
+            $table->unique("name","account_type");
+
+
         });
 	}
 

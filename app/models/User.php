@@ -29,8 +29,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 *
 	 * @var array
 	 */
-	protected $hidden = array('password', 'remember_token', 'pivot');
-
+	protected $hidden = array('password', 'remember_token');
 
     public function getAuthPassword()
     {
@@ -49,7 +48,17 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
     public function badges()
     {
-        return $this->belongsToMany('Badge', 'user_badge');
+        return $this->belongsToMany('Badge', 'user_badge')->withPivot("issued_on","added_on","public","notes")->where('user_badge.accepted', true);;
+    }
+
+    public function publicBadges()
+    {
+        return $this->belongsToMany('Badge', 'user_badge')->withPivot("issued_on","added_on")->where('user_badge.public', true)->where('user_badge.accepted', true);;
+    }
+
+    public function pendingBadges()
+    {
+        return $this->belongsToMany('Badge', 'user_badge')->withPivot("issued_on","added_on","notes")->where('user_badge.accepted', false);
     }
 
     public function tags(){

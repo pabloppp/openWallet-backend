@@ -95,3 +95,13 @@ Route::filter('csrf', function()
 });
 
 //Route::when('admin/*', 'admin');     <--- PATTERN FILTER
+
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+
+Route::filter('restStatus', function()
+{
+    App::error(function(ModelNotFoundException $e, $code)
+    {
+        return Response::json(array("errors"=>array("message"=>"Not found","code"=>404)),404);
+    });
+});

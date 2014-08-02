@@ -20,12 +20,14 @@ class CreateTagsTable extends Migration {
             $table->string('tag');
 
             $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
-            $table->unique(array('tag','user_id'));
+
 
             $table->integer('account_id')->nullable()->unsigned();
             $table->foreign('account_id')->references('id')->on('accounts');
+
+            $table->unique(array('tag','user_id','account_id'));
 
             $table->timestamps();
 
@@ -40,9 +42,9 @@ class CreateTagsTable extends Migration {
 
             $table->primary(array('badge_id','tag_id'));
 
-            $table->foreign('badge_id')->references('id')->on('badges');
+            $table->foreign('badge_id')->references('id')->on('badges')->onDelete('cascade');
 
-            $table->foreign('tag_id')->references('id')->on('tags');
+            $table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade');
 
             $table->timestamp('tagged_on');
 

@@ -6,6 +6,8 @@
  * Time: 00:20
  */
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+
 class Tag extends Eloquent{
 
     /**
@@ -20,7 +22,8 @@ class Tag extends Eloquent{
 
     protected $table = 'tags';
 
-    protected $hidden = array('pivot');
+    protected $hidden = array('pivot','user_id','id');
+    protected $fillable = array('tag', 'user_id');
 
     public function user()
     {

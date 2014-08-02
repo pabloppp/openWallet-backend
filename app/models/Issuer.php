@@ -18,6 +18,7 @@ class Issuer extends Eloquent{
     */
 
     protected $table = 'issuers';
+    protected $fillable = array('origin','name','contact');
 
     public $timestamps = false;
 

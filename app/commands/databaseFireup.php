@@ -38,7 +38,9 @@ class databaseFireup extends Command {
 	public function fire()
 	{
 		//
-        $this->info("\nMigrating default...\n");
+        $this->info("\nMigrating news...\n");
+        $this->call('migrate');
+        $this->info("\nRefreshin all...\n");
         $this->call('migrate:refresh');
         $this->info("\nMigrating packages...\n");
         $this->call('migrate', array('--package' => 'lucadegasperi/oauth2-server-laravel'));

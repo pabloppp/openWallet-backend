@@ -6,7 +6,7 @@
  * Time: 21:19
  */
 
-class Badge extends Eloquent{
+class Badge extends Eloquent {
 
     /**
     * id - AI
@@ -29,11 +29,18 @@ class Badge extends Eloquent{
      */
 
     protected $table = 'badges';
-    protected $hidden = array('pivot');
+    protected $hidden = array('created_at','updated_at','image_local','image_remote','issuer_id','recipient','salt');
+    protected $appends = array('image','issuer');
+
+
 
     public function owners()
     {
-        return $this->belongsToMany('User', 'user_badge');
+        return $this->belongsToMany('User', 'user_badge')->withPivot("issued_on","added_on","public");
+    }
+
+    public function publicOwners(){
+        return $this->belongsToMany('User', 'user_badge')->withPivot("issued_on","added_on","public","accepted","notes")->where('user_badge.public', true);
     }
 
     public function issuer()
@@ -45,8 +52,8 @@ class Badge extends Eloquent{
         return $this->belongsToMany('Tag', 'badge_tag');
     }
 
-    public function tagsByUser($user){
-        return $this->belongsToMany('Tag','badge_tag')->where('tags.user_id', $user->id);
+    public function tagsByUserId($userId){
+        return $this->belongsToMany('Tag','badge_tag')->where('tags.user_id', $userId);
     }
 
     public function addTag($tag){
@@ -64,5 +71,21 @@ class Badge extends Eloquent{
         }
     }
 
+    public function getIssuerAttribute()
+    {
+        return $this->issuer()->get(array("origin","name","contact"))->first();
+    }
+
+    public function getImageAttribute()
+    {
+        if($this->image_local != "") return $this->image_local;
+        else return $this->image_remote;
+    }
+
+    public function getIssuedOnAttribute()
+    {
+        if(isset($this->pivot) && $this->pivot != null) return $this->pivot->issued_on;
+        else return null;
+    }
 
 }

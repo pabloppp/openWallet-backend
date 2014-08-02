@@ -19,7 +19,10 @@ class CreateBadgesTables extends Migration {
             $table->string('origin');
             $table->string('name');
             $table->string('contact');
+            $table->integer("user_id")->unique()->unsigned()->nullable();
+            $table->foreign('user_id')->references('id')->on('users');
             $table->unique(array('origin','name','contact'));
+            $table->softDeletes();
 
         });
 
@@ -31,27 +34,34 @@ class CreateBadgesTables extends Migration {
             $table->string('name',100);
             $table->string('description',255);
             $table->string('criteria',255);
-            $table->string('image_url',255);
-
+            $table->string('image_remote',255);
 
             $table->integer('issuer_id')->unsigned();
             $table->foreign('issuer_id')->references('id')->on('issuers');
 
-            $table->unique(array('version', 'name', 'description', 'criteria', 'image_url', 'issuer_id'),'badges_all_unique');
+            $table->unique(array('version', 'name', 'description', 'criteria', 'image_remote', 'issuer_id'),'badges_all_unique');
 
-            $table->binary('image');
+            $table->string('image_local',255)->default("");
 
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('user_badge', function(Blueprint $table)
         {
             $table->integer('user_id')->unsigned();
             $table->integer('badge_id')->unsigned();
+            $table->boolean('public')->default(false);
+            $table->boolean('accepted')->default(false);
+
+            $table->string('recipient', 255)->nullable();
+            $table->string('salt', 255)->nullable();
+
+            $table->string('notes')->default("");
 
             $table->primary(array('user_id','badge_id'));
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('badge_id')->references('id')->on('badges');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('badge_id')->references('id')->on('badges')->onDelete('cascade');
 
             $table->timestamp("issued_on");
             $table->timestamp('added_on');
